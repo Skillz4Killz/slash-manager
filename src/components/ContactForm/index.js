@@ -1,4 +1,4 @@
-import { lazy, useState } from "react";
+import { Fragment, lazy, useState } from "react";
 
 import { Row, Col, Button, Modal, Form, Input, Radio, Switch, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -22,6 +22,26 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log("Received values of form:", values);
+  };
+  const [mainType, setMainType] = useState(3);
+  const [secondType, setSecondType] = useState(3);
+  const [thirdType, setThirdType] = useState(3);
+
+  const onTypeChange = ({ type, secType, threeType }) => {
+    console.log("on type", type, secType, threeType);
+    if (type) {
+      setMainType(type);
+      if (type !== 1) {
+        setSecondType(3);
+        setThirdType(3);
+      }
+    }
+    if (secType) {
+      setSecondType(mainType === 1 ? secType : 3);
+    }
+    if (threeType) {
+      setThirdType(mainType === 1 && secondType === 2 ? threeType : 3);
+    }
   };
 
   return (
@@ -50,6 +70,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
         initialValues={{
           modifier: "public",
         }}
+        onValuesChange={onTypeChange}
       >
         <Form.Item
           name="name"
@@ -76,7 +97,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
           <Input type="textarea" />
         </Form.Item>
         <Form.Item
-          name="modifier"
+          name="type"
           className="collection-create-form_last-form-item"
           rules={[
             {
@@ -86,52 +107,227 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
           ]}
         >
           <Radio.Group>
-            <Radio value={1}>Subcommand</Radio>
-            <Radio value={2}>Subcommand Group</Radio>
-            <Radio value={3}>String</Radio>
-            <Radio value={4}>Integer</Radio>
-            <Radio value={5}>Boolean</Radio>
-            <Radio value={6}>User</Radio>
-            <Radio value={7}>Channel</Radio>
-            <Radio value={8}>Role</Radio>
+            <Radio.Button value={1}>Subcommand</Radio.Button>
+            <Radio.Button value={2}>Subcommand Group</Radio.Button>
+            <Radio.Button value={3}>String</Radio.Button>
+            <Radio.Button value={4}>Integer</Radio.Button>
+            <Radio.Button value={5}>Boolean</Radio.Button>
+            <Radio.Button value={6}>User</Radio.Button>
+            <Radio.Button value={7}>Channel</Radio.Button>
+            <Radio.Button value={8}>Role</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="Required">
+        <Form.Item label="Required" name="required">
           <Switch />
         </Form.Item>
 
-        <Form.List name="users" onFinish={onFinish}>
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map((field) => (
-                <Space key={field.key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
-                  <Form.Item
-                    {...field}
-                    name={[field.name, "name"]}
-                    fieldKey={[field.fieldKey, "name"]}
-                    rules={[{ required: true, message: "Missing choice name" }]}
-                  >
-                    <Input placeholder="Choice Name" />
-                  </Form.Item>
-                  <Form.Item
-                    {...field}
-                    name={[field.name, "value"]}
-                    fieldKey={[field.fieldKey, "value"]}
-                    rules={[{ required: true, message: "Missing choice value" }]}
-                  >
-                    <Input placeholder="Choice Value" />
-                  </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(field.name)} />
-                </Space>
-              ))}
-              <Form.Item>
-                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                  Add field
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+        {mainType === 3 ? (
+          <Form.List name="choices" onFinish={onFinish}>
+            {(fields, { add, remove }) => (
+              <Fragment>
+                {fields.map((field) => (
+                  <Space key={field.key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "name"]}
+                      fieldKey={[field.fieldKey, "name"]}
+                      rules={[{ required: true, message: "Missing choice name" }]}
+                    >
+                      <Input placeholder="Choice Name" />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "value"]}
+                      fieldKey={[field.fieldKey, "value"]}
+                      rules={[{ required: true, message: "Missing choice value" }]}
+                    >
+                      <Input placeholder="Choice Value" />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(field.name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add field
+                  </Button>
+                </Form.Item>
+              </Fragment>
+            )}
+          </Form.List>
+        ) : null}
+
+        {mainType === 1 ? (
+          <Fragment>
+            <Form.Item
+              name="subname"
+              label="Subcommand Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the name of the subcommand!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="subdescription"
+              label="Subcommand Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the description of the subcommand!",
+                },
+              ]}
+            >
+              <Input type="textarea" />
+            </Form.Item>
+            <Form.Item
+              name="secType"
+              className="collection-create-form_last-form-item"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select the type of option!",
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio.Button value={2}>Subcommand Group</Radio.Button>
+                <Radio.Button value={3}>String</Radio.Button>
+                <Radio.Button value={4}>Integer</Radio.Button>
+                <Radio.Button value={5}>Boolean</Radio.Button>
+                <Radio.Button value={6}>User</Radio.Button>
+                <Radio.Button value={7}>Channel</Radio.Button>
+                <Radio.Button value={8}>Role</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Required" name="secrequired">
+              <Switch />
+            </Form.Item>
+
+            {secondType === 3 ? (
+              <Form.List name="users" onFinish={onFinish}>
+                {(fields, { add, remove }) => (
+                  <Fragment>
+                    {fields.map((field) => (
+                      <Space key={field.key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "name"]}
+                          fieldKey={[field.fieldKey, "name"]}
+                          rules={[{ required: true, message: "Missing choice name" }]}
+                        >
+                          <Input placeholder="Choice Name" />
+                        </Form.Item>
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "value"]}
+                          fieldKey={[field.fieldKey, "value"]}
+                          rules={[{ required: true, message: "Missing choice value" }]}
+                        >
+                          <Input placeholder="Choice Value" />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(field.name)} />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                        Add field
+                      </Button>
+                    </Form.Item>
+                  </Fragment>
+                )}
+              </Form.List>
+            ) : null}
+          </Fragment>
+        ) : null}
+
+        {secondType === 2 ? (
+          <Fragment>
+            <Form.Item
+              name="name"
+              label="Option Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the name of the option!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="description"
+              label="Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the description of the option!",
+                },
+              ]}
+            >
+              <Input type="textarea" />
+            </Form.Item>
+            <Form.Item
+              name="threeType"
+              className="collection-create-form_last-form-item"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select the type of option!",
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio.Button value={3}>String</Radio.Button>
+                <Radio.Button value={4}>Integer</Radio.Button>
+                <Radio.Button value={5}>Boolean</Radio.Button>
+                <Radio.Button value={6}>User</Radio.Button>
+                <Radio.Button value={7}>Channel</Radio.Button>
+                <Radio.Button value={8}>Role</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Required" name="required">
+              <Switch />
+            </Form.Item>
+
+            {thirdType === 3 ? (
+              <Form.List name="users" onFinish={onFinish}>
+                {(fields, { add, remove }) => (
+                  <Fragment>
+                    {fields.map((field) => (
+                      <Space key={field.key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "name"]}
+                          fieldKey={[field.fieldKey, "name"]}
+                          rules={[{ required: true, message: "Missing choice name" }]}
+                        >
+                          <Input placeholder="Choice Name" />
+                        </Form.Item>
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "value"]}
+                          fieldKey={[field.fieldKey, "value"]}
+                          rules={[{ required: true, message: "Missing choice value" }]}
+                        >
+                          <Input placeholder="Choice Value" />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(field.name)} />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                        Add field
+                      </Button>
+                    </Form.Item>
+                  </Fragment>
+                )}
+              </Form.List>
+            ) : null}
+          </Fragment>
+        ) : null}
       </Form>
     </Modal>
   );
@@ -143,8 +339,8 @@ const Contact = ({ id, t }) => {
     errors,
     handleChange,
     handleSubmit,
-    // options,
-    // setOption,
+    options,
+    setOption,
     // guildID,
     // setGuildID,
     method,
@@ -155,9 +351,11 @@ const Contact = ({ id, t }) => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = (values) => {
-    console.log("Received values of form: ", values);
+    console.log("Received values of form: onCreate", values);
+    setOption([...options, values]);
     setVisible(false);
   };
+  console.log("options,", options);
 
   const ValidationType = ({ type }) => {
     const ErrorMessage = errors[type];
@@ -237,7 +435,25 @@ const Contact = ({ id, t }) => {
                 />
                 <ValidationType type="description" />
               </Col>
-              <br/>
+              <br />
+
+              {options && options.length ? (
+                <Fragment>
+                  <h6>Options</h6>
+                  <Col span={24}>
+                    {options.map((option, index) => (
+                      <Fragment key={index}>
+                        <p>
+                          {index + 1}.) {option.name}: {option.description} |{" "}
+                          {option.required ? "Required" : "Optional"}
+                        </p>
+                      </Fragment>
+                    ))}
+                  </Col>
+                  <br />
+                </Fragment>
+              ) : null}
+
               <Col span={24}>
                 <Button
                   type="primary"
@@ -267,59 +483,6 @@ const Contact = ({ id, t }) => {
       </S.Contact>
     </S.ContactContainer>
   );
-
-  // return (
-  //   <S.ContactContainer id={id}>
-  //     <S.Contact>
-  //       <Row type="flex" justify="space-between" align="middle">
-  //         <Col lg={12} md={11} sm={24}>
-  //           <Block padding={true} title={title} content={content} />
-  //         </Col>
-  //         <Col lg={12} md={12} sm={24}>
-  //           <S.FormGroup autoComplete="off" onSubmit={handleSubmit}>
-  //             <Col span={24}>
-  //               <CommonInput
-  //                 type="text"
-  //                 name="name"
-  //                 id="Name"
-  //                 placeholder="Your Name"
-  //                 value={values.name || ""}
-  //                 onChange={handleChange}
-  //               />
-  //               <ValidationType type="name" />
-  //             </Col>
-  //             <Col span={24}>
-  //               <CommonInput
-  //                 type="text"
-  //                 name="email"
-  //                 id="Email"
-  //                 placeholder="Your Email"
-  //                 value={values.email || ""}
-  //                 onChange={handleChange}
-  //               />
-  //               <ValidationType type="email" />
-  //             </Col>
-  //             <Col span={24}>
-  //               <TextArea
-  //                 placeholder="Your Message"
-  //                 value={values.message || ""}
-  //                 name="message"
-  //                 id="Message"
-  //                 onChange={handleChange}
-  //               />
-  //               <ValidationType type="message" />
-  //             </Col>
-  //             <S.ButtonContainer>
-  //               <CommonButton name="submit" type="submit">
-  //                 {t("Submit")}
-  //               </CommonButton>
-  //             </S.ButtonContainer>
-  //           </S.FormGroup>
-  //         </Col>
-  //       </Row>
-  //     </S.Contact>
-  //   </S.ContactContainer>
-  // );
 };
 
 export default withTranslation()(Contact);
