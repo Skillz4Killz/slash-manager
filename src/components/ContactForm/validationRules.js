@@ -11,6 +11,8 @@ export default function validate(values) {
     errors.message = "Secret key is not same as the SECRET_CODE provided as an environment variables."
   } else if (/^\d+$/.test(values.secret)) {
     errors.message = "Invalid guild ID provided."
+  } else if (/[^a-z0-9 ]/gi.test(values.name)) {
+    errors.message = "The command name must not contain special characters"
   }
   if (!values.message) {
     errors.message = "Message is required";
