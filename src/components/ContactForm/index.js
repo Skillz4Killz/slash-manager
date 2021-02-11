@@ -389,6 +389,7 @@ const Contact = ({ id, t }) => {
                 if (isGuild !== undefined) setGuild(isGuild);
                 if (isCreate !== undefined) setMethod(isCreate);
               }}
+              onOk={handleSubmit}
             >
               <Form.Item
                 name="isCreate"
@@ -457,17 +458,21 @@ const Contact = ({ id, t }) => {
                 />
                 <ValidationType type="name" />
               </Col>
-              <Col span={24}>
-                <TextArea
-                  placeholder="Your Command Description = Check if the bot is alive!"
-                  value={values.description || ""}
-                  name="description"
-                  id="Description"
-                  onChange={handleChange}
-                />
-                <ValidationType type="description" />
-              </Col>
-              <br />
+              {method ? (
+                <Fragment>
+                  <Col span={24}>
+                    <TextArea
+                      placeholder="Your Command Description = Check if the bot is alive!"
+                      value={values.description || ""}
+                      name="description"
+                      id="Description"
+                      onChange={handleChange}
+                    />
+                    <ValidationType type="description" />
+                  </Col>
+                  <br />
+                </Fragment>
+              ) : null}
 
               {options && options.length ? (
                 <Fragment>
@@ -495,23 +500,27 @@ const Contact = ({ id, t }) => {
                 </Fragment>
               ) : null}
 
-              <Col span={24}>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    setVisible(true);
-                  }}
-                >
-                  New Option
-                </Button>
-                <CollectionCreateForm
-                  visible={visible}
-                  onCreate={onCreate}
-                  onCancel={() => {
-                    setVisible(false);
-                  }}
-                />
-              </Col>
+              {method ? (
+                <Fragment>
+                  <Col span={24}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        setVisible(true);
+                      }}
+                    >
+                      New Option
+                    </Button>
+                    <CollectionCreateForm
+                      visible={visible}
+                      onCreate={onCreate}
+                      onCancel={() => {
+                        setVisible(false);
+                      }}
+                    />
+                  </Col>
+                </Fragment>
+              ) : null}
 
               <S.ButtonContainer>
                 <CommonButton name="submit" type="submit">
