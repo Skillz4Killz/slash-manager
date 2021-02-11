@@ -350,7 +350,7 @@ const Contact = ({ id, t }) => {
   } = useForm(validate);
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState(ContactContent.createTitle);
-  const [texts, setTexts] = useState(ContactContent.createTexts);
+  const [texts, setTexts] = useState(ContactContent.createText);
 
   const onCreate = (values) => {
     console.log("Received values of form: onCreate", values);
@@ -374,7 +374,11 @@ const Contact = ({ id, t }) => {
       <S.Contact>
         <Row type="flex" justify="space-between" align="middle">
           <Col lg={12} md={11} sm={24}>
-            <Block padding={true} title={title} texts={texts} />
+            <Block
+              padding={true}
+              title={title || ContactContent.createTitle}
+              texts={texts || ContactContent.createTexts}
+            />
           </Col>
           <Col lg={12} md={12} sm={24}>
             <Form
@@ -382,6 +386,7 @@ const Contact = ({ id, t }) => {
               name="form_main"
               initialValues={{
                 isGuild: true,
+                isCreate: true,
               }}
               onValuesChange={({ isGuild, isCreate }) => {
                 if (isGuild !== undefined) {
