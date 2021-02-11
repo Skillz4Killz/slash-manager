@@ -108,7 +108,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
         >
           <Radio.Group>
             <Radio.Button value={1}>Subcommand</Radio.Button>
-            <Radio.Button value={2}>Subcommand Group</Radio.Button>
             <Radio.Button value={3}>String</Radio.Button>
             <Radio.Button value={4}>Integer</Radio.Button>
             <Radio.Button value={5}>Boolean</Radio.Button>
