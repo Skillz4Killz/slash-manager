@@ -2,10 +2,10 @@ import axios from "axios";
 
 axios.defaults.headers.common["Authorization"] = process.env.BOT_TOKEN;
 
-exports.handler = async function (event, context) {
+module.exports = async function (req, res) {
   try {
-    console.log("Form ran", process.env, event);
-    const body = JSON.parse(event.body);
+    console.log("Form ran", process.env, req);
+    const body = JSON.parse(req.body);
     if (!body)
       return {
         statusCode: 400,
