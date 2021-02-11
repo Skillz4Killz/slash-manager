@@ -4,7 +4,7 @@
   "createTitle": "Create/Edit A Command",
   "createText": [
     "There are two kinds of Slash Commands, global(🌐) commands and guild(🏠) commands.",
-    "Global(🌐) commands are available for every guild(🏠) that adds your app. Guild(🏠) commands are specific to the guild(🏠) you specify when making them. Command names are unique per application within each scope (global(🌐) and guild(🏠)).",
+    "Global(🌐) commands are available for every guild(🏠) that adds your app. Guild(🏠) commands are specific to the guild(🏠) you specify when making them. Command names are unique per application within each scope (global(🌐) and guild(🏠).",
     "- Your app cannot have two global(🌐) commands with the same name",
     "- Your app cannot have two guild(🏠) commands within the same name on the same guild(🏠)",
     "- Your app can have a global(🌐) and guild(🏠) command with the same name",
