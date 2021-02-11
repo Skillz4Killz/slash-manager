@@ -1,6 +1,6 @@
-import { lazy } from "react";
+import { lazy, useState } from "react";
 
-import { Row, Col } from "antd";
+import { Row, Col, Button, Modal, Form, Input, Radio } from "antd";
 import Zoom from "react-reveal/Zoom";
 import { withTranslation } from "react-i18next";
 
@@ -13,9 +13,88 @@ import ToggleButton from "../toggle";
 import ContactContent from "../../content/ContactContent.json";
 
 const Block = lazy(() => import("../Block"));
-const Input = lazy(() => import("../../common/Input"));
-const Button = lazy(() => import("../../common/Button"));
+const CommonInput = lazy(() => import("../../common/Input"));
+const CommonButton = lazy(() => import("../../common/Button"));
 const TextArea = lazy(() => import("../../common/TextArea"));
+
+const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+  const [form] = Form.useForm();
+  return (
+    <Modal
+      visible={visible}
+      title="Create a new option"
+      okText="Create"
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        form
+          .validateFields()
+          .then((values) => {
+            form.resetFields();
+            onCreate(values);
+          })
+          .catch((info) => {
+            console.log("Validate Failed:", info);
+          });
+      }}
+    >
+      <Form
+        form={form}
+        layout="vertical"
+        name="form_in_modal"
+        initialValues={{
+          modifier: "public",
+        }}
+      >
+        <Form.Item
+          name="name"
+          label="Option Name"
+          rules={[
+            {
+              required: true,
+              message: "Please input the name of the option!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label="Description"
+          rules={[
+            {
+              required: true,
+              message: "Please input the description of the option!",
+            },
+          ]}
+        >
+          <Input type="textarea" />
+        </Form.Item>
+        <Form.Item
+          name="modifier"
+          className="collection-create-form_last-form-item"
+          rules={[
+            {
+              required: true,
+              message: "Please select the type of option!",
+            },
+          ]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Subcommand</Radio>
+            <Radio value={2}>Subcommand Group</Radio>
+            <Radio value={3}>String</Radio>
+            <Radio value={4}>Integer</Radio>
+            <Radio value={5}>Boolean</Radio>
+            <Radio value={6}>User</Radio>
+            <Radio value={7}>Channel</Radio>
+            <Radio value={8}>Role</Radio>
+          </Radio.Group>
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
 
 const Contact = ({ id, t }) => {
   const {
@@ -32,6 +111,12 @@ const Contact = ({ id, t }) => {
     guild,
     setGuild,
   } = useForm(validate);
+  const [visible, setVisible] = useState(false);
+
+  const onCreate = (values) => {
+    console.log("Received values of form: ", values);
+    setVisible(false);
+  };
 
   const ValidationType = ({ type }) => {
     const ErrorMessage = errors[type];
@@ -65,7 +150,7 @@ const Contact = ({ id, t }) => {
             />
             <S.FormGroup autoComplete="off" onSubmit={handleSubmit}>
               <Col span={24}>
-                <Input
+                <CommonInput
                   type="text"
                   name="secret"
                   id="Secret"
@@ -78,7 +163,7 @@ const Contact = ({ id, t }) => {
 
               {guild ? (
                 <Col span={24}>
-                  <Input
+                  <CommonInput
                     type="text"
                     name="guildID"
                     id="Guild ID"
@@ -91,7 +176,7 @@ const Contact = ({ id, t }) => {
               ) : null}
 
               <Col span={24}>
-                <Input
+                <CommonInput
                   type="text"
                   name="name"
                   id="Command Name"
@@ -99,7 +184,7 @@ const Contact = ({ id, t }) => {
                   value={values.name || ""}
                   onChange={handleChange}
                 />
-                <ValidationType type="email" />
+                <ValidationType type="name" />
               </Col>
               <Col span={24}>
                 <TextArea
@@ -109,39 +194,30 @@ const Contact = ({ id, t }) => {
                   id="Description"
                   onChange={handleChange}
                 />
-                <ValidationType type="message" />
+                <ValidationType type="description" />
               </Col>
-              {/**
-                <Row type="flex" justify="space-between" align="middle">
-                <Col span={8}>
-                <TextArea
-                placeholder="Your Command Description = Check if the bot is alive!"
-                value={values.description || ""}
-                name="description"
-                id="Description"
-                onChange={handleChange}
-                />
-                <ValidationType type="message" />
-                </Col>
-                <Col span={8}>
-                <TextArea
-                placeholder="Your Command Description = Check if the bot is alive!"
-                value={values.description || ""}
-                name="description"
-                id="Description"
-                onChange={handleChange}
-                />
-                <ValidationType type="message" />
-                </Col>
-                <Col span={8}>
-                <Button name="addoption">{t("Add Option")}</Button>
-                </Col>
-                </Row>
-              */}
-              <S.ButtonContainer>
-                <Button name="submit" type="submit">
-                  {t("Submit")}
+              <Col span={24}>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                >
+                  New Option
                 </Button>
+                <CollectionCreateForm
+                  visible={visible}
+                  onCreate={onCreate}
+                  onCancel={() => {
+                    setVisible(false);
+                  }}
+                />
+              </Col>
+
+              <S.ButtonContainer>
+                <CommonButton name="submit" type="submit">
+                  {t("Submit")}
+                </CommonButton>
               </S.ButtonContainer>
             </S.FormGroup>
           </Col>
@@ -160,7 +236,7 @@ const Contact = ({ id, t }) => {
   //         <Col lg={12} md={12} sm={24}>
   //           <S.FormGroup autoComplete="off" onSubmit={handleSubmit}>
   //             <Col span={24}>
-  //               <Input
+  //               <CommonInput
   //                 type="text"
   //                 name="name"
   //                 id="Name"
@@ -171,7 +247,7 @@ const Contact = ({ id, t }) => {
   //               <ValidationType type="name" />
   //             </Col>
   //             <Col span={24}>
-  //               <Input
+  //               <CommonInput
   //                 type="text"
   //                 name="email"
   //                 id="Email"
@@ -192,9 +268,9 @@ const Contact = ({ id, t }) => {
   //               <ValidationType type="message" />
   //             </Col>
   //             <S.ButtonContainer>
-  //               <Button name="submit" type="submit">
+  //               <CommonButton name="submit" type="submit">
   //                 {t("Submit")}
-  //               </Button>
+  //               </CommonButton>
   //             </S.ButtonContainer>
   //           </S.FormGroup>
   //         </Col>
