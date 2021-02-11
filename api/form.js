@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] = process.env.BOT_TOKEN;
+axios.defaults.headers.common["Authorization"] = `Bot ${process.env.BOT_TOKEN}`;
 
 module.exports = async function (req, res) {
   try {
