@@ -12,5 +12,11 @@
     "- Apps can have a maximum of 50 global(🌐) commands, and an additional 50 guild-specific commands per guild(🏠)"
   ],
   "deleteTitle": "Delete A Command",
-  "deleteText": ["Deletes a command if it exists."]
+  "deleteText": ["Deletes a command if it exists."],
+  "secretTitle": "What's A Secret Code?",
+  "secretText": [
+    "The secret code is NOT your bot token.",
+    "The code was set up when you first created this website. If you lose the code, go to the Vercel website and login to your dashboard. Once you select your project, you can change the code.",
+    "You can share your code with your developer team. This allows other developers to manage the commands without having to share a bot's token."
+  ]
 }

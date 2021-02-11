@@ -9,8 +9,8 @@ const Block = ({ title, texts, t }) => {
       <Fade left>
         <h6>{t(title)}</h6>
         <S.TextWrapper>
-          {texts.map((text) => (
-            <p>{t(text)}</p>
+          {texts?.map((text, index) => (
+            <p key={index}>{t(text)}</p>
           ))}
         </S.TextWrapper>
       </Fade>

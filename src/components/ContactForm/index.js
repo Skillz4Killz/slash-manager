@@ -349,6 +349,8 @@ const Contact = ({ id, t }) => {
     setGuild,
   } = useForm(validate);
   const [visible, setVisible] = useState(false);
+  const [title, setTitle] = useState(ContactContent.createTitle);
+  const [texts, setTexts] = useState(ContactContent.createTexts);
 
   const onCreate = (values) => {
     console.log("Received values of form: onCreate", values);
@@ -372,11 +374,7 @@ const Contact = ({ id, t }) => {
       <S.Contact>
         <Row type="flex" justify="space-between" align="middle">
           <Col lg={12} md={11} sm={24}>
-            <Block
-              padding={true}
-              title={method ? ContactContent.createTitle : ContactContent.deleteTitle}
-              texts={method ? ContactContent.createText : ContactContent.deleteText}
-            />
+            <Block padding={true} title={title} texts={texts} />
           </Col>
           <Col lg={12} md={12} sm={24}>
             <Form
@@ -386,8 +384,16 @@ const Contact = ({ id, t }) => {
                 isGuild: true,
               }}
               onValuesChange={({ isGuild, isCreate }) => {
-                if (isGuild !== undefined) setGuild(isGuild);
-                if (isCreate !== undefined) setMethod(isCreate);
+                if (isGuild !== undefined) {
+                  setGuild(isGuild);
+                  setTitle(method ? ContactContent.createTitle : ContactContent.deleteTitle);
+                  setTexts(method ? ContactContent.createText : ContactContent.deleteText);
+                }
+                if (isCreate !== undefined) {
+                  setMethod(isCreate);
+                  setTitle(isCreate ? ContactContent.createTitle : ContactContent.deleteTitle);
+                  setTexts(isCreate ? ContactContent.createText : ContactContent.deleteText);
+                }
               }}
               onOk={handleSubmit}
             >
@@ -429,6 +435,10 @@ const Contact = ({ id, t }) => {
                   placeholder="SECRET_CODE"
                   value={values.secret || ""}
                   onChange={handleChange}
+                  onFocus={() => {
+                    setTitle(ContactContent.secretTitle);
+                    setTexts(ContactContent.secretText);
+                  }}
                 />
                 <ValidationType type="secret" />
               </Col>
