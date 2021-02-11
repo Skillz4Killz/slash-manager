@@ -379,14 +379,47 @@ const Contact = ({ id, t }) => {
             />
           </Col>
           <Col lg={12} md={12} sm={24}>
-            <ToggleButton onChange={(state) => setMethod(state)} defaultChecked={method} />
-            <br></br>
-            <ToggleButton
-              onChange={(state) => setGuild(state)}
-              icons={{ checked: <>🏠</>, unchecked: <>🌐</> }}
-              defaultChecked={guild}
-            />
-            <S.FormGroup autoComplete="off" onSubmit={handleSubmit}>
+            <Form
+              layout="vertical"
+              name="form_main"
+              initialValues={{
+                isGuild: true,
+              }}
+              onValuesChange={({ isGuild, isCreate }) => {
+                if (isGuild !== undefined) setGuild(isGuild);
+                if (isCreate !== undefined) setMethod(isCreate);
+              }}
+            >
+              <Form.Item
+                name="isCreate"
+                className="collection-create-form_last-form-item"
+                rules={[
+                  {
+                    required: true,
+                    message: "Would you like to create or delete a command?",
+                  },
+                ]}
+              >
+                <Radio.Group>
+                  <Radio.Button value={true}>📝 Create</Radio.Button>
+                  <Radio.Button value={false}>🗑️ Delete</Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                name="isGuild"
+                className="collection-create-form_last-form-item"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select the type of command!",
+                  },
+                ]}
+              >
+                <Radio.Group>
+                  <Radio.Button value={true}>🏠 Guild</Radio.Button>
+                  <Radio.Button value={false}>🌐 Global</Radio.Button>
+                </Radio.Group>
+              </Form.Item>
               <Col span={24}>
                 <CommonInput
                   type="text"
@@ -485,7 +518,7 @@ const Contact = ({ id, t }) => {
                   {t("Submit")}
                 </CommonButton>
               </S.ButtonContainer>
-            </S.FormGroup>
+            </Form>
           </Col>
         </Row>
       </S.Contact>
