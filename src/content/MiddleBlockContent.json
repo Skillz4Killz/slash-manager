@@ -2,7 +2,7 @@
   "title": "Ready to start your journey?",
   "text": [
     "Hit the button below! Just do it! HIT IT!",
-    "- BOT_TOKEN This is used for authorization header when making requests. This is your bot's token. It will never be used/shared. It is saved under YOUR account when you set it on Vercel with that button.",
+    "- BOT_TOKEN This is used for authorization header when making requests. This is your bot's token. It will never be shared to me. It is saved under YOUR account when you set it on Vercel with that button.",
     "- SECRET_CODE This is like a password for controlling your bots commands. Please make this hard to guess!",
     "- APPLICATION_ID This is the application id. Normally, this is your bot's id but if your bot is really old this may be different."
   ],
