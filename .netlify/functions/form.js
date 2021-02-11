@@ -2,9 +2,6 @@ import axios from "axios";
 
 axios.defaults.headers.common["Authorization"] = process.env.BOT_TOKEN;
 
-const GUILD_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/guilds/${values.guildID}/commands`;
-const GLOBAL_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/commands`;
-
 exports.handler = async function (event, context) {
   try {
     console.log("Form ran", process.env, event);
@@ -22,7 +19,10 @@ exports.handler = async function (event, context) {
       };
     }
 
+    const GUILD_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/guilds/${body.guildID}/commands`;
+    const GLOBAL_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/commands`;
     const url = guild ? GUILD_SLASH : GLOBAL_SLASH;
+
     if (method) {
       await axios.post(url, {
         ...values,
