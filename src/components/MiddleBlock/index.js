@@ -21,15 +21,15 @@ const MiddleBlock = ({ title, content, button, t }) => {
           <S.ContentWrapper>
             <Col lg={24} md={24} sm={24} xs={24}>
               <h6>{t(title)}</h6>
-              <S.Content>{t(content)}</S.Content>
+              {content.map((c, index) => (
+                <S.Content key={index}>{t(c)}</S.Content>
+              ))}
               {button ? (
-                <Button
-                  name="submit"
-                  type="submit"
-                  onClick={() => scrollTo("mission")}
-                >
-                  {t(button)}
-                </Button>
+                <a href="https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FSkillz4Killz%2Fslash-manager&env=APPLICATION_ID,BOT_TOKEN,SECRET_CODE">
+                  <Button name="holder" type="holder">
+                    {t(button)}
+                  </Button>
+                </a>
               ) : (
                 ""
               )}
