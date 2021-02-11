@@ -1,6 +1,7 @@
 import { lazy, useState } from "react";
 
-import { Row, Col, Button, Modal, Form, Input, Radio } from "antd";
+import { Row, Col, Button, Modal, Form, Input, Radio, Switch, Space } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Zoom from "react-reveal/Zoom";
 import { withTranslation } from "react-i18next";
 
@@ -19,6 +20,10 @@ const TextArea = lazy(() => import("../../common/TextArea"));
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
+  const onFinish = (values) => {
+    console.log("Received values of form:", values);
+  };
+
   return (
     <Modal
       visible={visible}
@@ -91,6 +96,42 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
             <Radio value={8}>Role</Radio>
           </Radio.Group>
         </Form.Item>
+        <Form.Item label="Required">
+          <Switch />
+        </Form.Item>
+
+        <Form.List name="users" onFinish={onFinish}>
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field) => (
+                <Space key={field.key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
+                  <Form.Item
+                    {...field}
+                    name={[field.name, "name"]}
+                    fieldKey={[field.fieldKey, "name"]}
+                    rules={[{ required: true, message: "Missing choice name" }]}
+                  >
+                    <Input placeholder="Choice Name" />
+                  </Form.Item>
+                  <Form.Item
+                    {...field}
+                    name={[field.name, "value"]}
+                    fieldKey={[field.fieldKey, "value"]}
+                    rules={[{ required: true, message: "Missing choice value" }]}
+                  >
+                    <Input placeholder="Choice Value" />
+                  </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(field.name)} />
+                </Space>
+              ))}
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  Add field
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
       </Form>
     </Modal>
   );
