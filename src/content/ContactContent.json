@@ -1,7 +1,7 @@
 {
   "title": "Contact Form",
   "text": "The following form demonstrates form validation in action. Contact form component reduces the amount of time it is being re-rendered by the user as it embraces uncontrolled form validation to reduce any unnecessary performance penalty.",
-  "createTitle": "Creating Or Editing A Command",
+  "createTitle": "Create/Edit A Command",
   "createText": [
     "There are two kinds of Slash Commands, global(🌐) commands and guild(🏠) commands.",
     "Global(🌐) commands are available for every guild(🏠) that adds your app. Guild(🏠) commands are specific to the guild(🏠) you specify when making them. Command names are unique per application within each scope (global(🌐) and guild(🏠)).",
