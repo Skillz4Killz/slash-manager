@@ -1,6 +1,6 @@
 import { Fragment, lazy, useState } from "react";
 
-import { Row, Col, Button, Modal, Form, Input, Radio, Switch, Space } from "antd";
+import { Row, Col, Button, Modal, Form, Input, Radio, Switch, Space, Table, Tag } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Zoom from "react-reveal/Zoom";
 import { withTranslation } from "react-i18next";
@@ -9,7 +9,7 @@ import useForm from "./useForm";
 import validate from "./validationRules";
 
 import * as S from "./styles";
-import ToggleButton from "../toggle";
+import ToggleButton, { DragSortingTable } from "../table";
 
 import ContactContent from "../../content/ContactContent.json";
 
@@ -17,6 +17,17 @@ const Block = lazy(() => import("../Block"));
 const CommonInput = lazy(() => import("../../common/Input"));
 const CommonButton = lazy(() => import("../../common/Button"));
 const TextArea = lazy(() => import("../../common/TextArea"));
+
+const ALLTYPES = new Map([
+  [1, "Subcommand"],
+  [2, "Subcommand Group"],
+  [3, "String"],
+  [4, "Integer"],
+  [5, "Boolean"],
+  [6, "User"],
+  [7, "Channel"],
+  [8, "Role"],
+]);
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -492,13 +503,11 @@ const Contact = ({ id, t }) => {
                 <Fragment>
                   <h6>Options</h6>
                   <Col span={24}>
-                    {options.map((option, index) => (
-                      <Fragment key={index}>
-                        <Row type="flex" justify="space-between" align="middle">
-                          <p>
-                            {index + 1}.) {option.name}: {option.description} |{" "}
-                            {option.required ? "Required" : "Optional"}
-                          </p>
+                    <DragSortingTable
+                      options={options.map((o, index) => ({
+                        ...o,
+                        required: o.required ? "Yes" : "No",
+                        action: (
                           <MinusCircleOutlined
                             onClick={(event) => {
                               options.splice(index, 1);
@@ -506,9 +515,10 @@ const Contact = ({ id, t }) => {
                               handleChange(event);
                             }}
                           />
-                        </Row>
-                      </Fragment>
-                    ))}
+                        ),
+                      }))}
+                      setOption={setOption}
+                    ></DragSortingTable>
                   </Col>
                   <br />
                 </Fragment>
