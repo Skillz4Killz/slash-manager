@@ -4,12 +4,11 @@ This is a clean, minimalistic, and easy to use interface for managing slash comm
 
 # How To Use
 
+1. HIT THIS BUTTON!
 
-1. HIT THIS BUTTON! [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Skillz4Killz/slash-manager)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FSkillz4Killz%2Fslash-manager&env=APPLICATION_ID,BOT_TOKEN,SECRET_CODE)
 
 TODO: add in netlify steps
-
-
 
 2. Fork The Repo(Hit that template button!) **MAKE IT PRIVATE!!!!**
 3. Add the following to Github Secrets:
