@@ -1,4 +1,4 @@
-import { lazy, useState } from "react";
+import { lazy } from "react";
 
 import { Row, Col } from "antd";
 import Zoom from "react-reveal/Zoom";
@@ -8,7 +8,6 @@ import useForm from "./useForm";
 import validate from "./validationRules";
 
 import * as S from "./styles";
-import * as IS from "../../common/Input/styles";
 import ToggleButton from "../toggle";
 
 import ContactContent from "../../content/ContactContent.json";
@@ -24,10 +23,10 @@ const Contact = ({ id, t }) => {
     errors,
     handleChange,
     handleSubmit,
-    options,
-    setOption,
-    guildID,
-    setGuildID,
+    // options,
+    // setOption,
+    // guildID,
+    // setGuildID,
     method,
     setMethod,
     guild,
@@ -81,13 +80,13 @@ const Contact = ({ id, t }) => {
                 <Col span={24}>
                   <Input
                     type="text"
-                    name="guildid"
+                    name="guildID"
                     id="Guild ID"
                     placeholder="785384884197392384"
                     value={values.guildID || ""}
                     onChange={handleChange}
                   />
-                  <ValidationType type="guildid" />
+                  <ValidationType type="guildID" />
                 </Col>
               ) : null}
 

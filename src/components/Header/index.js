@@ -22,13 +22,13 @@ const Header = ({ t }) => {
   };
 
   const MenuItem = () => {
-    const scrollTo = (id) => {
-      const element = document.getElementById(id);
-      element.scrollIntoView({
-        behavior: "smooth",
-      });
-      setVisibility(false);
-    };
+    // const scrollTo = (id) => {
+    //   const element = document.getElementById(id);
+    //   element.scrollIntoView({
+    //     behavior: "smooth",
+    //   });
+    //   setVisibility(false);
+    // };
     return (
       <Fragment>
         <a href="https://discord.gg/5vBgXk3UcZ">
