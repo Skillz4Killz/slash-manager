@@ -1,6 +1,6 @@
 # Slash Manager
 
-This is clean, minimalistic, and easy to use interface for managing slash commands.
+This is a clean, minimalistic, and easy to use interface for managing slash commands.
 
 # How To Use
 
@@ -16,3 +16,7 @@ This is clean, minimalistic, and easy to use interface for managing slash comman
 # Get Help
 
 [Discord Support Server](https://discord.gg/5vBgXk3UcZ)
+
+# Contribute
+
+Yes please! PR AWAY!
