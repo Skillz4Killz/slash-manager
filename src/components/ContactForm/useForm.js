@@ -27,27 +27,26 @@ const useForm = (validate) => {
     const GLOBAL_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/commands`;
     const GUILD_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/guilds/${guildID}/commands`;
 
+    // TODO: VALIDATION!!!
     const url = guild ? GUILD_SLASH : GLOBAL_SLASH;
-    if (Object.keys(values).length === 3) {
-      if (method) {
-        axios
-          .post(url, {
-            ...values,
-          })
-          .then(() => {
-            // TODO: RESET VALUES
-            setShouldSubmit(true);
-          });
-      } else {
-        axios
-          .delete(url, {
-            ...values,
-          })
-          .then(() => {
-            // TODO: RESET VALUES
-            setShouldSubmit(true);
-          });
-      }
+    if (method) {
+      axios
+        .post(url, {
+          ...values,
+        })
+        .then(() => {
+          // TODO: RESET VALUES
+          setShouldSubmit(true);
+        });
+    } else {
+      axios
+        .delete(url, {
+          ...values,
+        })
+        .then(() => {
+          // TODO: RESET VALUES
+          setShouldSubmit(true);
+        });
     }
   };
 
