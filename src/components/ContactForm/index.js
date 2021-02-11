@@ -237,6 +237,7 @@ const Contact = ({ id, t }) => {
                 />
                 <ValidationType type="description" />
               </Col>
+              <br/>
               <Col span={24}>
                 <Button
                   type="primary"
