@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { notification } from "antd";
 import axios from "axios";
 
-axios.defaults.headers.common["Authorization"] = process.env.BOT_TOKEN;
-
 const useForm = (validate) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
@@ -23,31 +21,16 @@ const useForm = (validate) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(validate(values));
-    // Your url for API
-    const GLOBAL_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/commands`;
-    const GUILD_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/guilds/${guildID}/commands`;
 
-    // TODO: VALIDATION!!!
-    const url = guild ? GUILD_SLASH : GLOBAL_SLASH;
-    if (method) {
-      axios
-        .post(url, {
-          ...values,
-        })
-        .then(() => {
-          // TODO: RESET VALUES
-          setShouldSubmit(true);
-        });
-    } else {
-      axios
-        .delete(url, {
-          ...values,
-        })
-        .then(() => {
-          // TODO: RESET VALUES
-          setShouldSubmit(true);
-        });
-    }
+    axios
+      .post(`https://slashmanager.netlify.app/.netlify/functions/form`, {
+        ...values,
+        options,
+        method,
+      })
+      .then(() => {
+        setShouldSubmit(true);
+      });
   };
 
   useEffect(() => {

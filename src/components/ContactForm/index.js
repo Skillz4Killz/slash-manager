@@ -355,7 +355,6 @@ const Contact = ({ id, t }) => {
     setOption([...options, values]);
     setVisible(false);
   };
-  console.log("options,", options);
 
   const ValidationType = ({ type }) => {
     const ErrorMessage = errors[type];
@@ -443,10 +442,19 @@ const Contact = ({ id, t }) => {
                   <Col span={24}>
                     {options.map((option, index) => (
                       <Fragment key={index}>
-                        <p>
-                          {index + 1}.) {option.name}: {option.description} |{" "}
-                          {option.required ? "Required" : "Optional"}
-                        </p>
+                        <Row type="flex" justify="space-between" align="middle">
+                          <p>
+                            {index + 1}.) {option.name}: {option.description} |{" "}
+                            {option.required ? "Required" : "Optional"}
+                          </p>
+                          <MinusCircleOutlined
+                            onClick={(event) => {
+                              options.splice(index, 1);
+                              setOption(options);
+                              handleChange(event);
+                            }}
+                          />
+                        </Row>
                       </Fragment>
                     ))}
                   </Col>
