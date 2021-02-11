@@ -31,23 +31,13 @@ const Header = ({ t }) => {
     };
     return (
       <Fragment>
-        <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
-          <S.Span>{t("About")}</S.Span>
-        </S.CustomNavLinkSmall>
-        <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
-          <S.Span>{t("Mission")}</S.Span>
-        </S.CustomNavLinkSmall>
-        <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
-          <S.Span>{t("Product")}</S.Span>
-        </S.CustomNavLinkSmall>
-        <S.CustomNavLinkSmall
-          style={{ width: "180px" }}
-          onClick={() => scrollTo("contact")}
-        >
-          <S.Span>
-            <Button>{t("Contact")}</Button>
-          </S.Span>
-        </S.CustomNavLinkSmall>
+        <a href="https://discord.gg/5vBgXk3UcZ">
+          <S.CustomNavLinkSmall style={{ width: "180px" }} onClick={() => null}>
+            <S.Span>
+              <Button>{t("Join Support Server!")}</Button>
+            </S.Span>
+          </S.CustomNavLinkSmall>
+        </a>
       </Fragment>
     );
   };
@@ -66,12 +56,7 @@ const Header = ({ t }) => {
             <S.Outline />
           </S.Burger>
         </Row>
-        <CSSTransition
-          in={!isSmallScreen || isNavVisible}
-          timeout={350}
-          classNames="NavAnimation"
-          unmountOnExit
-        >
+        <CSSTransition in={!isSmallScreen || isNavVisible} timeout={350} classNames="NavAnimation" unmountOnExit>
           <Drawer closable={false} visible={visible} onClose={onClose}>
             <Col style={{ marginBottom: "2.5rem" }}>
               <S.Label onClick={onClose}>

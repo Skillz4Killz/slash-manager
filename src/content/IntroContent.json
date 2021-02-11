@@ -1,13 +1,5 @@
 {
-  "title": "Landing page template for developers & startups",
-  "text": "Beautifully designed templates using React.js, ant design and styled-components! Save weeks of time and build your landing page in minutes.",
-  "button": [
-    {
-      "title": "Explore"
-    },
-    {
-      "title": "Learn More",
-      "color": "#fff"
-    }
-  ]
+  "title": "Manage Your Discord Slash Commands With Ease!",
+  "text": "Beautifully designed experience. Never leak your token or info!",
+  "button": []
 }

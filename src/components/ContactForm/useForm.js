@@ -2,9 +2,15 @@ import { useState, useEffect } from "react";
 import { notification } from "antd";
 import axios from "axios";
 
+axios.defaults.headers.common["Authorization"] = process.env.BOT_TOKEN;
+
 const useForm = (validate) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
+  const [options, setOption] = useState([]);
+  const [guildID, setGuildID] = useState("");
+  const [method, setMethod] = useState(true);
+  const [guild, setGuild] = useState(true);
   const [shouldSubmit, setShouldSubmit] = useState(false);
 
   const openNotificationWithIcon = (type) => {
@@ -18,15 +24,30 @@ const useForm = (validate) => {
     event.preventDefault();
     setErrors(validate(values));
     // Your url for API
-    const url = "";
+    const GLOBAL_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/commands`;
+    const GUILD_SLASH = `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/guilds/${guildID}/commands`;
+
+    const url = guild ? GUILD_SLASH : GLOBAL_SLASH;
     if (Object.keys(values).length === 3) {
-      axios
-        .post(url, {
-          ...values,
-        })
-        .then(() => {
-          setShouldSubmit(true);
-        });
+      if (method) {
+        axios
+          .post(url, {
+            ...values,
+          })
+          .then(() => {
+            // TODO: RESET VALUES
+            setShouldSubmit(true);
+          });
+      } else {
+        axios
+          .delete(url, {
+            ...values,
+          })
+          .then(() => {
+            // TODO: RESET VALUES
+            setShouldSubmit(true);
+          });
+      }
     }
   };
 
@@ -51,6 +72,14 @@ const useForm = (validate) => {
     handleSubmit,
     values,
     errors,
+    options,
+    setOption,
+    guildID,
+    setGuildID,
+    method,
+    setMethod,
+    guild,
+    setGuild,
   };
 };
 

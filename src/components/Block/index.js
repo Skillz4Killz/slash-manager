@@ -3,13 +3,15 @@ import Fade from "react-reveal/Fade";
 
 import * as S from "./styles";
 
-const Block = ({ title, content, t }) => {
+const Block = ({ title, texts, t }) => {
   return (
     <S.Container>
       <Fade left>
         <h6>{t(title)}</h6>
         <S.TextWrapper>
-          <S.Content>{t(content)}</S.Content>
+          {texts.map((text) => (
+            <p>{t(text)}</p>
+          ))}
         </S.TextWrapper>
       </Fade>
     </S.Container>
