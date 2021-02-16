@@ -2,19 +2,41 @@ import { Fragment, useState } from "react";
 import { Button, Modal, Form, Input, Radio, Switch, Space, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
-const OptionForm = ({ buttons }) => {
-  const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log("Finished values of form:", values);
-  };
+const OptionForm = ({ buttons, updateOptions, type, options, form }) => {
+  // const [form] = Form.useForm();
 
   const [mainType, setMainType] = useState(3);
-  const [customOptions, setCustomOption] = useState([]);
 
   const onTypeChange = (event) => {
-    console.log("on type", event, event.type);
+    console.log("on option type", event, event.type, type);
     if (event.type) {
       setMainType(event.type);
+    }
+
+    if (type === "subcommands") {
+      // const options = [
+      //   {
+      //     name: "user",
+      //     description: "Get or edit permissions for a user",
+      //     type: 2, // 2 is type SUB_COMMAND_GROUP
+      //     options: [
+      //       {
+      //         name: "user",
+      //         description: "The user to get",
+      //         type: 6, // 6 is type USER
+      //         required: true,
+      //       },
+      //       {
+      //         name: "channel",
+      //         description: "The channel permissions to get. If omitted, the guild permissions will be returned",
+      //         type: 7, // 7 is type CHANNEL
+      //         required: false,
+      //       },
+      //     ],
+      //   },
+      // ];
+    } else if (type === "subcommandoptions") {
+    } else {
     }
   };
 
@@ -24,10 +46,9 @@ const OptionForm = ({ buttons }) => {
       layout="vertical"
       name="form_in_modal"
       initialValues={{
-        type: 3,
+        type: type === "subcommands" ? 1 : 3,
       }}
       onValuesChange={onTypeChange}
-      onFinish={onFinish}
     >
       <Form.Item
         name="type"
@@ -141,6 +162,10 @@ const OptionForm = ({ buttons }) => {
                       { name: "Channel", value: 7 },
                       { name: "Role", value: 8 },
                     ]}
+                    type="subcommandoptions"
+                    updateOptions={updateOptions}
+                    options={options}
+                    form={form}
                   ></OptionForm>
                   <MinusCircleOutlined onClick={() => remove(choice.name)} />
                 </Space>
@@ -171,6 +196,10 @@ const OptionForm = ({ buttons }) => {
                       { name: "Channel", value: 7 },
                       { name: "Role", value: 8 },
                     ]}
+                    type="subcommands"
+                    updateOptions={updateOptions}
+                    options={options}
+                    form={form}
                   ></OptionForm>
                   <MinusCircleOutlined onClick={() => remove(choice.name)} />
                 </Space>

@@ -7,9 +7,6 @@ import OptionForm from "./option";
 const subcommandOptionType = {};
 export default ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log("Received values of form:", values);
-  };
 
   const [mainType, setMainType] = useState(3);
   const [customOptions, setCustomOption] = useState([]);
@@ -19,6 +16,8 @@ export default ({ visible, onCreate, onCancel }) => {
     if (event.type) {
       setMainType(event.type);
     }
+
+
   };
 
   return (
@@ -29,6 +28,7 @@ export default ({ visible, onCreate, onCancel }) => {
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={() => {
+        console.log(customOptions, "options");
         form
           .validateFields()
           .then((values) => {
@@ -53,6 +53,9 @@ export default ({ visible, onCreate, onCancel }) => {
           { name: "Role", value: 8 },
         ]}
         onCreate={onCreate}
+        updateOptions={setCustomOption}
+        options={customOptions}
+        form={form}
       ></OptionForm>
     </Modal>
   );
